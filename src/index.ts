@@ -29,7 +29,9 @@ client.on('message', async (msg) => {
     const command = await import(commandUrl);
     command.default(msg);
   } catch (err) {
-    console.error(`Não existe o comando ${commandName}`);
+    console.error(err)
+    if(msg.body.startsWith('!'))
+      await msg.reply(`Não existe o comando ${commandName}`);
   }
 });
 
