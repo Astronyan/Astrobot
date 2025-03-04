@@ -2,7 +2,10 @@ import { readdirSync, readFileSync } from 'fs';
 import path, { dirname } from 'path';
 import qrcode from 'qrcode-terminal';
 import { fileURLToPath, pathToFileURL } from 'url';
-import { Client, LocalAuth, MessageMedia } from 'whatsapp-web.js';
+import WhatsApp from 'whatsapp-web.js'; // Importa como default
+
+// Desestruturar os componentes necessários
+const { Client, LocalAuth } = WhatsApp;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
