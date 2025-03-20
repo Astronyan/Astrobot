@@ -2,7 +2,7 @@ import { ElevenLabsClient, play } from "elevenlabs";
 import { config } from "dotenv";
 config()
 
-export default async (text: string, voiceId: string = '7u8qsX4HQsSHJ0f8xsQZ' )=> {
+export default async (text: string, voiceId: string = 'URXOh18jLjjB8SVVZjA0' )=> {
 
     try{
 
@@ -10,7 +10,7 @@ export default async (text: string, voiceId: string = '7u8qsX4HQsSHJ0f8xsQZ' )=>
         const audio = await client.textToSpeech.convert(voiceId, {
             output_format: "mp3_44100_128",
             text,
-            model_id: "eleven_flash_v2_5"
+            model_id: "eleven_multilingual_v2"
         });
 
         const buffers: Buffer[] = [];

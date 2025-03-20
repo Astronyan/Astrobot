@@ -30,7 +30,7 @@ client.on('message', async (msg) => {
 
   try {
     const command = await import(commandUrl);
-    command.default(msg);
+    command.default(msg, client);
   } catch (err) {
     console.error(err)
     if(msg.body.startsWith('!'))
