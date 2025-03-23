@@ -10,7 +10,10 @@ const { Client, LocalAuth } = WhatsApp;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const client = new Client({
-  authStrategy: new LocalAuth()
+  authStrategy: new LocalAuth(),
+  puppeteer: {
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+  }
 });
 
 client.on('qr', qr => {
