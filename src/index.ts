@@ -19,6 +19,7 @@ client.on('qr', qr => {
 
 client.on('ready', () => {
   console.log('Client is ready!');
+  client.getChatById
 });
 
 client.on('message', async (msg) => {
