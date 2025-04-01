@@ -27,14 +27,15 @@ client.on('ready', () => {
 });
 
 client.on('message', async (msg) => {
-  const commandName = msg.body.split(' ')[0]
+  const commandName = msg.body.split(' ')[0].toLowerCase()
   const commandPath = path.resolve(__dirname, 'commands', `${commandName}.js`);
 
   // Converter o caminho do arquivo em URL
   const commandUrl = pathToFileURL(commandPath).href;
 
   try {
-    const command = await import(commandUrl);
+    let command = await import(commandUrl);
+    //if(commandName === 'stt') command = await import(pathToFileURL())
     command.default(msg, client);
   } catch (err) {
     console.error(err)
