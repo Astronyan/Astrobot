@@ -1,0 +1,13 @@
+version: '3'
+services:
+  astrobot:
+    build: .
+    container_name: astrobot
+    init: true
+    cap_add:
+      - SYS_ADMIN
+    volumes:
+      - ./wwebjs_auth:/app/.wwebjs_auth
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
