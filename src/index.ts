@@ -3,6 +3,8 @@ import path, { dirname } from 'path';
 import qrcode from 'qrcode-terminal';
 import { fileURLToPath, pathToFileURL } from 'url';
 import WhatsApp from 'whatsapp-web.js'; // Importa como default
+import { config } from 'dotenv';
+config()
 
 // Desestruturar os componentes necessários
 const { Client, LocalAuth } = WhatsApp;
@@ -25,6 +27,10 @@ const commandsPath = path.resolve(__dirname, 'commands')
 const commandsNames = readdirSync(commandsPath).map(file => file.slice(0, -3)) //removing extension (.js)
 const availableCommands = new Set(commandsNames)
 client.on('message', async (msg) => {
+  if(process.env.NODE_ENV === 'development'){
+    const chat = await msg.getChat()
+    if(chat.name !== '8') return
+  }
   const firstWord = msg.body.split(' ')[0].toLowerCase()
   const hasPrefix = firstWord.startsWith('!')
 
