@@ -1,5 +1,7 @@
-import { Message, MessageMedia } from "whatsapp-web.js";
-import tts from "src/lib/elevenLabs/tts";
+import WhatsappWebjs, { Message } from "whatsapp-web.js";
+import tts from "src/lib/tts/tts";
+
+const { MessageMedia } = WhatsappWebjs
 
 export default async (msg: Message, ...params: any) => {    
     const errorMessage = 'Você precisa citar a mensagem no qual quer transformar em voz ou escrever algo na frente do comando'
