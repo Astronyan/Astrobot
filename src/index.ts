@@ -21,11 +21,19 @@ client.on('ready', () => {
   console.log('Client is ready!');
 });
 
+const commandsPath = path.resolve(__dirname, 'commands')
+const commandsNames = readdirSync(commandsPath).map(file => file.slice(0, -3)) //removing extension (.js)
+const availableCommands = new Set(commandsNames)
 client.on('message', async (msg) => {
-  const commandName = msg.body.split(' ')[0]
-  const commandPath = path.resolve(__dirname, 'commands', `${commandName}.js`);
+  const firstWord = msg.body.split(' ')[0].toLowerCase()
+  const hasPrefix = firstWord.startsWith('!')
 
-  // Converter o caminho do arquivo em URL
+  const commandName = hasPrefix? firstWord.slice(1) : firstWord
+  if(!availableCommands.has(commandName)){
+    if(hasPrefix) await msg.reply(`Não existe o comando ${commandName}`);
+    return
+  }
+  const commandPath = path.resolve(__dirname, 'commands', `${commandName}.js`);
   const commandUrl = pathToFileURL(commandPath).href;
 
   try {
@@ -33,8 +41,6 @@ client.on('message', async (msg) => {
     command.default(msg, client);
   } catch (err) {
     console.error(err)
-    if(msg.body.startsWith('!'))
-      await msg.reply(`Não existe o comando ${commandName}`);
   }
 });
 
