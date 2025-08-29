@@ -4,6 +4,9 @@ services:
     build: .
     container_name: astrobot
     init: true
+    privileged: true            # Permissões extendidas para acessar hardware
+    devices:
+      - /dev/gpiomem:/dev/gpiomem  # Montar dispositivo GPIO
     cap_add:
       - SYS_ADMIN
     volumes:
