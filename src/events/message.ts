@@ -23,7 +23,7 @@ export default async (msg: Message, client: Client) => {
         if (hasPrefix) await msg.reply(`Não existe o comando ${commandName}`);
         return
     }
-    const commandPath = path.resolve(__dirname, 'commands', `${commandName}.js`);
+    const commandPath = path.resolve(__dirname, '../commands', `${commandName}.js`);
     const commandUrl = pathToFileURL(commandPath).href;
 
     try {
