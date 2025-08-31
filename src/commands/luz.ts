@@ -1,6 +1,7 @@
 import { Message } from "whatsapp-web.js";
 import { config } from "dotenv";
 import tuya from '../lib/tuya/tuya'
+import getDeviceByName from "src/lib/tuya/getDeviceByName";
 config()
 
 export default async (msg: Message) => {
@@ -24,6 +25,9 @@ export default async (msg: Message) => {
                 },
             });
         }
+
+        const id = await getDeviceByName()
+        console.log()
 
         await alternarLuz('eb79ac664732562ecezxaq', action);
 
