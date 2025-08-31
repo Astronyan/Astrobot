@@ -3,11 +3,11 @@ import tts from "src/lib/tts/tts";
 
 const { MessageMedia } = WhatsappWebjs
 
-export default async (msg: Message, ...params: any) => {    
+export default async (msg: Message, ...params: string[]) => {    
     const errorMessage = 'Você precisa citar a mensagem no qual quer transformar em voz ou escrever algo na frente do comando'
     if (!msg.hasQuotedMsg && (msg.body.length < 4)) return await msg.reply(errorMessage)
 
-    const textMessage = msg.hasQuotedMsg? (await msg.getQuotedMessage()).body : msg.body
+    const textMessage = msg.hasQuotedMsg? (await msg.getQuotedMessage()).body : params.join(' ')
 
     const chat = await msg.getChat()
     chat.sendStateTyping()

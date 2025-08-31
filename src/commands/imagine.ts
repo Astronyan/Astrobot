@@ -1,7 +1,7 @@
 import openai from "src/lib/openai";
-import { Message } from "whatsapp-web.js";
+import { Client, Message } from "whatsapp-web.js";
 
-export default async (msg: Message) => {
+export default async (msg: Message, params: string[], client: Client) => {
 
     const prompt = msg.body
 
