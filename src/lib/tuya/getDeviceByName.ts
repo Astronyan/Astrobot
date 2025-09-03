@@ -6,14 +6,13 @@ async function getDeviceByName(nome: string): Promise<string | null> {
       method: 'GET',
       path: '/v1.0/iot-03/devices',
       query: {
-        // Você pode incluir paginação aqui, se necessário
         page_no: 1,
         page_size: 50,
       },
     });
 
-    const devices = response.result.list as []
-    console.log(devices)
+    console.log(response);
+    const devices = response.result?.list || [];
 
     const device = devices.find((d: any) => d.name.toLowerCase() === nome.toLowerCase());
 
@@ -28,5 +27,6 @@ async function getDeviceByName(nome: string): Promise<string | null> {
     return null;
   }
 }
+
 
 export default getDeviceByName
