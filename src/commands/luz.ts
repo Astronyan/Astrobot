@@ -20,8 +20,8 @@ export default async (msg: Message, params: string[]) => {
   let action: boolean | undefined;
   let cor: { h: number, s: number, v: number } | undefined;
 
-  if (state === "ligado" || state === "on") action = true;
-  else if (state === "desligado" || state === "off") action = false;
+  if (state === "ligar" || state === "on") action = true;
+  else if (state === "desligar" || state === "off") action = false;
   else if (state in colorMap) {
     action = true;               // ao receber cor, pressupõe ligar
     cor = colorMap[state];

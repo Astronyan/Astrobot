@@ -4,16 +4,10 @@ async function getDeviceByName(nome: string): Promise<string | null> {
   try {
     const response = await tuya.request({
       method: 'GET',
-      path: '/v1.0/iot-03/devices',
-      query: {
-        page_no: 1,
-        page_size: 50,
-      },
+      path: `/v1.0/users/${process.env.TUYA_APP_ACCOUNT_UUID}/devices`,
     });
 
-    console.log(response);
-    const devices = response.result?.list || [];
-
+    const devices = response.result as any[];
     const device = devices.find((d: any) => d.name.toLowerCase() === nome.toLowerCase());
 
     if (device) {
