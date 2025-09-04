@@ -21,7 +21,8 @@ export default async (msg: Message, params: string[], client: Client) => {
     if (!imageData || imageData.length === 0) throw new Error('imageData undefined')
 
     const imageBase64 = imageData[0].b64_json
-
+    if (!imageBase64) throw new Error('imageData undefined')
+    
     const media = new MessageMedia("image/png", imageBase64, "generated_image.png");
     chat.sendMessage(media)
   } catch (err) {
