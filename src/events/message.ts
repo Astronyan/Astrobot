@@ -15,7 +15,7 @@ export default async (msg: Message, client: Client) => {
         if (chat.name !== '8') return
     }
 
-    const msgWords = msg.body.split(' ').filter(word => word !== '')
+    const msgWords = msg.body.toLowerCase().split(' ').filter(word => word !== '')
     const hasPrefix = msgWords[0].startsWith('!')
 
     const [commandName, ...params] = hasPrefix ? msgWords.slice(1) : msgWords

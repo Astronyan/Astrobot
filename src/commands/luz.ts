@@ -6,13 +6,27 @@ config()
 
 // Mapeamento simples de nome de cor para valores HSV/RGB Tuya
 const colorMap: Record<string, { h: number, s: number, v: number }> = {
-  vermelho: { h: 0, s: 1000, v: 1000 },
-  azul: { h: 240, s: 1000, v: 1000 },
-  verde: { h: 120, s: 1000, v: 1000 },
-  amarelo: { h: 60, s: 1000, v: 1000 },
-  branco: { h: 0, s: 0, v: 1000 },
-  // adicione mais conforme necessidade
+  vermelho:   { h: 0,   s: 1000, v: 1000 },
+  laranja:    { h: 30,  s: 1000, v: 1000 },
+  amarelo:    { h: 60,  s: 1000, v: 1000 },
+  verde:      { h: 120, s: 1000, v: 1000 },
+  ciano:      { h: 180, s: 1000, v: 1000 },
+  azul:       { h: 240, s: 1000, v: 1000 },
+  roxo:       { h: 270, s: 1000, v: 1000 },
+  magenta:    { h: 300, s: 1000, v: 1000 },
+  rosa:       { h: 330, s: 1000, v: 1000 },
+
+  branco:     { h: 0, s: 0, v: 1000 },
+  cinza:      { h: 0, s: 0, v: 500 },
+  preto:      { h: 0, s: 0, v: 0 },
 };
+
+const femaleColorMap = {
+  laranja: '',
+  magenta: '',
+  rosa: '',
+  cinza: '',
+}
 
 export default async (msg: Message, params: string[]) => {
   const [name, state] = params;
@@ -20,15 +34,17 @@ export default async (msg: Message, params: string[]) => {
   let action: boolean | undefined;
   let cor: { h: number, s: number, v: number } | undefined;
 
-  if (state === "ligar" || state === "on") action = true;
-  else if (state === "desligar" || state === "off") action = false;
-  else if (state in colorMap) {
+  const colorState = state[state.length - 1] === 'a' && !(state in femaleColorMap)? state.slice(0, -1) + 'o' : state //Trocando suposta menção no feminino para o masculino
+
+  if (state === "ligar" || state === "on" || state === "acender") action = true;
+  else if (state === "desligar" || state === "off" || state === "apagar") action = false;
+  else if (colorState in colorMap) {
     action = true;               // ao receber cor, pressupõe ligar
-    cor = colorMap[state];
+    cor = colorMap[colorState];
   }
 
   if (action === undefined && cor === undefined) {
-    await msg.reply(`Ação desconhecido. Use: 'ligar', 'desligar' ou uma cor suportada: (${Object.keys(colorMap)})`);
+    await msg.reply(`Ação desconhecida: (${state}). \nUse: 'ligar', 'desligar' ou uma cor suportada: ${Object.keys(colorMap).join(', ')}`);
     return;
   }
 
