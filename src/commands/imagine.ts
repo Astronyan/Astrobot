@@ -1,24 +1,31 @@
 import openai from "src/lib/openai";
-import { Client, Message } from "whatsapp-web.js";
+import Whatsapp, { Client, Message } from "whatsapp-web.js";
+
+const {MessageMedia} = Whatsapp
 
 export default async (msg: Message, params: string[], client: Client) => {
 
-    const prompt = msg.body
+  try {
+    const chat = await msg.getChat()
+    chat.sendStateTyping()
 
-    const response = await openai.responses.create({
-        model: "gpt-5",
-        input: "Generate an image of gray tabby cat hugging an otter with an orange scarf",
-        tools: [{type: "image_generation"}],
+    const prompt = params[0]
+    const response = await openai.images.generate({
+      prompt,
+      model: 'dall-e-3',
+      response_format: 'b64_json'
     });
-    
+
     // Save the image to a file
-    const imageData = response.output
-      .filter((output) => output.type === "image_generation_call")
-      .map((output) => output.result);
-    
-    if (imageData.length > 0) {
-      const imageBase64 = imageData[0];
-      const fs = await import("fs");
-      fs.writeFileSync("otter.png", Buffer.from(imageBase64, "base64"));
-    }
+    const imageData = response.data
+    if (!imageData || imageData.length === 0) throw new Error('imageData undefined')
+
+    const imageBase64 = imageData[0].b64_json
+
+    const media = new MessageMedia("image/png", imageBase64, "generated_image.png");
+    chat.sendMessage(media)
+  } catch (err) {
+    console.log(err)
+    msg.reply('Houve um erro ao gerar sua imagem')
+  }
 }
