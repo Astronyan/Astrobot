@@ -9,7 +9,7 @@ export default async (msg: Message, params: string[], client: Client) => {
     const chat = await msg.getChat()
     chat.sendStateTyping()
 
-    const prompt = params[0]
+    const prompt = params.join(' ')
     const response = await openai.images.generate({
       prompt,
       model: 'dall-e-3',
